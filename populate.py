@@ -46,7 +46,7 @@ def randomDate():
 	today = datetime.date.today()
 	from_today = randint(-365, 365)
 	event_date = today + datetime.timedelta(days = from_today)
-	return event_date
+	print event_date
 
 # projects
 project_titles = ["Website", "Database", "Concert series", "Symposium"]
@@ -98,3 +98,4 @@ for item in range(50):
 		bibliography_id = randint(1, 11))
 	session.add(new_resource)
 	session.commit
+	

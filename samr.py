@@ -2,7 +2,9 @@ from flask import Flask, render_template, request, redirect, url_for, flash
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from samr_db_setup import Base, Bio, Event, Project, Bibliography, Resource
+from datetime import datetime, date
 import datetime
+
 
 app = Flask(__name__)
 
@@ -23,19 +25,70 @@ def home():
 # View, add, edit, and delete events
 @app.route('/events/')
 def events():
-	return "Events home page"
+	today = datetime.date.today()
+	upcoming = session.query(Event).filter(Event.start_date >= today).order_by(Event.start_date)
+	past = session.query(Event).filter(Event.start_date < today).order_by(Event.start_date.desc())
+	return render_template('events.html', upcoming = upcoming, past = past)
 
-@app.route('/events/<int:event_id>/')
-def viewEvent(event_id):
-	return "View info for event number " + str(event_id)
-
-@app.route('/events/add/')
+@app.route('/events/add/', methods=['GET', 'POST'])
 def addEvent():
-	return "Page to add an event"
+	if request.method == "POST":
+		date_string = request.form['start_date']
+		split = date_string.split('/')
+		month = int(split[0])
+		day = int(split[1])
+		year = int(split[2])
+		new_date = date(year, month, day)
+		new_event = Event(title = request.form['title'], 
+			location = request.form['location'], 
+			description = request.form['description'],
+			host_id = request.form['host_id'],
+			start_date = new_date
+			)
+		session.add(new_event)
+		session.commit()
+		flash("Event added")
+		return redirect(url_for('events'))
+	else:
+		return render_template('addevent.html')
 
-@app.route('/events/<int:event_id>/edit/')
+@app.route('/events/<int:event_id>/edit/', methods=['GET', 'POST'])
 def editEvent(event_id):
-	return "Edit or delete event number " + str(event_id)
+	if request.method == "POST":
+		event = session.query(Event).filter_by(id = event_id).one()
+		date_string = request.form['start_date']
+		split = date_string.split('/')
+		month = int(split[0])
+		day = int(split[1])
+		year = int(split[2])
+		new_date = date(year, month, day)
+		event.title = request.form['title']
+		event.location = request.form['location']
+		event.description = request.form['description']
+		event.host_id = request.form['host_id']
+		event.start_date = new_date
+		session.commit()
+		flash("Event updated")
+		return redirect(url_for('events'))
+	else:
+		event = session.query(Event).filter_by(id = event_id).one()
+		date_info = event.start_date.split('-')
+		start_date = date_info[1] + '/' + date_info[2] + '/' + date_info[0]
+		return render_template('editevent.html', event = event, start_date = start_date)
+
+@app.route('/events/<int:event_id>/delete/', methods=['GET', 'POST'])
+def deleteEvent(event_id):
+	if request.method == "POST":
+		event = session.query(Event).filter_by(id = event_id).one()
+		session.delete(event)
+		session.commit()
+		flash("Event deleted")
+		return redirect(url_for('events'))
+	else:
+		event = session.query(Event).filter_by(id = event_id).one()
+		date_info = event.start_date.split('-')
+		start_date = date_info[1] + '/' + date_info[2] + '/' + date_info[0]
+		return render_template('deleteevent.html', event = event, start_date = start_date)
 
 # View, add, edit, and delete biographies
 @app.route('/bios/')

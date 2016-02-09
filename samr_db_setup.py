@@ -19,7 +19,7 @@ class Event(Base):
 	title = Column(String(80), nullable = False)
 	location = Column(String(250), nullable = False)
 	description = Column(String(250), nullable = True)
-	start_date = Column(Date, nullable = False)
+	start_date = Column(String(10), nullable = False)
 	id = Column(Integer, primary_key = True)
 	host_id = Column(Integer, ForeignKey('bio.id'))
 	host = relationship(Bio)

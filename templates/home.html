@@ -6,7 +6,7 @@
 <body>
 
 <h1>Society for Arab Music Research</h1>
-<p><a href= "">SAMR Facebook page</a></p>
+<p><a href= "https://www.facebook.com/groups/378262162265234" target = "_blank">SAMR Facebook page</a></p>
 <div>
 	<h2>About the Society</h2>
 </div>
@@ -17,7 +17,8 @@
 		<li>{{ e.start_date }}: {{ e.title }}, {{ e.location }}</li>
 		{% endfor %}
 	</ul>
-	<a href="">Add an event</a>
+	<a href= "{{ url_for( 'events' ) }}">See all events</a> 
+	<a href= "{{ url_for( 'addEvent' ) }}">Add an event</a>
 </div>
 <div>
 	<h2>Member Projects</div>

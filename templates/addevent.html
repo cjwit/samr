@@ -1,0 +1,32 @@
+<html>
+<head>
+	<title>Add a New Event</title>
+	<link rel=stylesheet type=text/css href="{{ url_for('static', filename = 'styles.css') }}">
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+	<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+	<link rel="stylesheet" href="/resources/demos/style.css">
+	<script>
+		$(function() {
+			$( "#datepicker" ).datepicker();
+		});
+ 	</script>
+
+</head>
+<body>
+
+<h1>Add a New Event</h1>
+<p><a href= "{{ url_for('home') }}">Back to home</a></p>
+
+<div>
+	<form action = "{{ url_for('addEvent') }}" method = 'post'>
+		<p>Title: <input type = 'text' max = '80' name = 'title'></p>
+		<p>Location: <input type = 'text' max = '250' name = 'location'></p>
+		<p>Description: <input type = 'text' max = '250' name = 'description'></p>
+		<p>Hosted by (ID Number): <input type = 'max' name = 'host_id'></p>
+		<p>Start Date: <input id = 'datepicker' type = 'text' name = 'start_date'></p>
+		<p><input type = 'submit' value = 'Add Event'> <a href= "{{ url_for('events') }}">Back to events</a>
+	</form>
+</div>
+
+</body>

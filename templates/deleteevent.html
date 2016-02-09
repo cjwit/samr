@@ -1,0 +1,23 @@
+<html>
+<head>
+	<title>SAMR Events</title>
+	<link rel=stylesheet type=text/css href="{{ url_for('static', filename = 'styles.css') }}">
+
+</head>
+<body>
+
+<h1>Delete {{ event.name }}</h1>
+<p><a href= "{{ url_for('home') }}">Back to home</a></p>
+
+<div>
+	<form action = "{{ url_for('deleteEvent', event_id = event.id) }}" method = 'post'>
+		<p>Title: <input type = 'text' max = '80' name = 'title' value = '{{ event.title }}'></p>
+		<p>Location: <input type = 'text' max = '250' name = 'location' value = '{{ event.location }}'></p>
+		<p>Description: <input type = 'text' max = '250' name = 'description' value = '{{ event.description }}'></p>
+		<p>Hosted by (ID Number): <input type = 'max' name = 'host_id' value = '{{ event.host_id }}'></p>
+		<p>Start Date: <input id = 'datepicker' type = 'text' name = 'start_date' value = '{{ start_date }}'></p>
+		<p><input type = 'submit' value = 'Delete Event'> <a href= "{{ url_for('events') }}">Cancel and go back to events</a>
+	</form>
+</div>
+
+</body>
