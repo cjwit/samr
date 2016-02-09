@@ -1,0 +1,37 @@
+<html>
+<head>
+	<title>Society for Arab Music Research</title>
+	<link rel=stylesheet type=text/css href="{{ url_for('static', filename = 'styles.css') }}">
+</head>
+<body>
+
+<h1>Society for Arab Music Research</h1>
+<p><a href= "">SAMR Facebook page</a></p>
+<div>
+	<h2>About the Society</h2>
+</div>
+<div>
+	<h2>Upcoming Events</h2>
+	<ul>
+		{% for e in events %}
+		<li>{{ e.start_date }}: {{ e.title }}, {{ e.location }}</li>
+		{% endfor %}
+	</ul>
+	<a href="">Add an event</a>
+</div>
+<div>
+	<h2>Member Projects</div>
+	<ul>
+		{% for p in projects %}
+		<li>{{ p.title }} (<a href="">{{ p.owner.name }}</a>): {{ p.description }}</li>
+		{% endfor %}
+	</ul>
+	<a href="">Add your project</a>	
+</div>
+<div>
+	<h2>Other resources</h2>
+	<a href="">Link to member listing</a> 
+	<a href="">Link to community bibliography topics</a>
+</div>
+
+</body>
