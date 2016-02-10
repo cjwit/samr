@@ -13,11 +13,8 @@ first_names = ["John", "Stacy", "Bill", "Samra", "Fiona", "Carl", "Taylor", "Ste
 last_names = ["Smith", "Jones", "Arrazak", "Assalam", "Miller", "Meuller", "Michaelson", "Saladin", "Farrouk"]
 interests = ["Sufism", "Islam", "Maqams", "Politics", "Piety", "Sacred", "Anthropology", "Economics", "Rhtyhm", "Oud", "Egypt", "Morocco", "Gulf States", "Iran", "Indonesia", "Performance", "Ritual", "Coptic music", "Activism", "Arab Spring"]
 domains = ["gmail.com", "hotmail.com", "aol.com", "yahoo.com", "fakeschool.edu", "sillyplace.edu"]
-affiliations = []
-for d in domains:
-	affiliations.append(d)
-affiliations.append(None)
 
+affiliations = ["Oxfordhouse", "Carnegie Schoolfront", "Skippers University", "Skylight College", "Pragmatics Polytechnic", "NYC Universityland", "LaLa U", "The LLT", "Ohio A&M", "Texas University", "Schoemaker U"]
 
 def randomName():
 	first = (randint(1, len(first_names))) - 1

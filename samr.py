@@ -6,9 +6,6 @@ from datetime import datetime, date
 import datetime
 import bleach
 
-print bleach.clean("<div>")
-
-
 app = Flask(__name__)
 
 engine = create_engine('sqlite:///samr.db')
@@ -36,7 +33,7 @@ def events():
 @app.route('/events/add/', methods=['GET', 'POST'])
 def addEvent():
 	if request.method == "POST":
-		date_string = request.form['start_date']
+		date_string = bleach.clean(request.form['start_date'])
 		split = date_string.split('/')
 		month = int(split[0])
 		day = int(split[1])
@@ -44,11 +41,11 @@ def addEvent():
 		new_date = date(year, month, day)
 		
 
-		new_event = Event(title = request.form['title'], 
-			location = request.form['location'], 
-			description = request.form['description'],
-			host_name = request.form['host_name'],
-			contact = request.form['contact'],
+		new_event = Event(title = bleach.clean(request.form['title']), 
+			location = bleach.clean(request.form['location']), 
+			description = bleach.clean(request.form['description']),
+			host_name = bleach.clean(request.form['host_name']),
+			contact = bleach.clean(request.form['contact']),
 			start_date = new_date
 			)
 		
@@ -62,24 +59,24 @@ def addEvent():
 @app.route('/events/<int:event_id>/edit/', methods=['GET', 'POST'])
 def editEvent(event_id):
 	if request.method == "POST":
-		event = session.query(Event).filter_by(id = event_id).one()
-		date_string = request.form['start_date']
+		event = session.query(Event).filter_by(id = bleach.clean(event_id)).one()
+		date_string = bleach.clean(request.form['start_date'])
 		split = date_string.split('/')
 		month = int(split[0])
 		day = int(split[1])
 		year = int(split[2])
 		new_date = date(year, month, day)
-		event.title = request.form['title']
-		event.location = request.form['location']
-		event.description = request.form['description']
-		host_name = request.form['host_name']
-		contact = request.form['contact']
+		event.title = bleach.clean(request.form['title'])
+		event.location = bleach.clean(request.form['location'])
+		event.description = bleach.clean(request.form['description'])
+		host_name = bleach.clean(request.form['host_name'])
+		contact = bleach.clean(request.form['contact'])
 		event.start_date = new_date
 		session.commit()
 		flash("Event updated")
 		return redirect(url_for('events'))
 	else:
-		event = session.query(Event).filter_by(id = event_id).one()
+		event = session.query(Event).filter_by(id = bleach.clean(event_id)).one()
 		date_info = event.start_date.split('-')
 		start_date = date_info[1] + '/' + date_info[2] + '/' + date_info[0]
 		return render_template('editevent.html', event = event, start_date = start_date)
@@ -87,13 +84,13 @@ def editEvent(event_id):
 @app.route('/events/<int:event_id>/delete/', methods=['GET', 'POST'])
 def deleteEvent(event_id):
 	if request.method == "POST":
-		event = session.query(Event).filter_by(id = event_id).one()
+		event = session.query(Event).filter_by(id = bleach.clean(event_id)).one()
 		session.delete(event)
 		session.commit()
 		flash("Event deleted")
 		return redirect(url_for('events'))
 	else:
-		event = session.query(Event).filter_by(id = event_id).one()
+		event = session.query(Event).filter_by(id = bleach.clean(event_id)).one()
 		date_info = event.start_date.split('-')
 		start_date = date_info[1] + '/' + date_info[2] + '/' + date_info[0]
 		return render_template('deleteevent.html', event = event, start_date = start_date)
@@ -108,13 +105,13 @@ def bios():
 def addBio():
 	if request.method == "POST":
 		if request.form['affiliation'] != "":
-			affiliation = request.form['affiliation']
+			affiliation = bleach.clean(request.form['affiliation'])
 		else:
 			affiliation = None
-		new_bio = Bio(name = request.form['name'], 
-			interests = request.form['interests'], 
-			email = request.form['email'],
-			website = request.form['website'],
+		new_bio = Bio(name = bleach.clean(request.form['name']), 
+			interests = bleach.clean(request.form['interests']), 
+			email = bleach.clean(request.form['email']),
+			website = bleach.clean(request.form['website']),
 			affiliation = affiliation
 			)
 		session.add(new_bio)
@@ -127,13 +124,13 @@ def addBio():
 @app.route('/bios/<int:bio_id>/edit/', methods = ["GET", "POST"])
 def editBio(bio_id):
 	if request.method == "POST":
-		bio = session.query(Bio).filter_by(id = bio_id).one()
-		bio.name = request.form['name']
-		bio.interests = request.form['interests']
-		bio.email = request.form['email']
-		bio.website = request.form['website']
+		bio = session.query(Bio).filter_by(id = bleach.clean(bio_id)).one()
+		bio.name = bleach.clean(request.form['name'])
+		bio.interests = bleach.clean(request.form['interests'])
+		bio.email = bleach.clean(request.form['email'])
+		bio.website = bleach.clean(request.form['website'])
 		if request.form['affiliation'] != "":
-			affiliation = request.form['affiliation']
+			affiliation = bleach.clean(request.form['affiliation'])
 		else:
 			affiliation = None
 		bio.affiliation = affiliation
@@ -141,7 +138,7 @@ def editBio(bio_id):
 		flash("Member updated")
 		return redirect(url_for('bios'))
 	else:
-		bio = session.query(Bio).filter_by(id = bio_id).one()
+		bio = session.query(Bio).filter_by(id = bleach.clean(bio_id)).one()
 		if bio.affiliation != None:
 			affiliation = bio.affiliation
 		else:
@@ -151,13 +148,13 @@ def editBio(bio_id):
 @app.route('/bios/<int:bio_id>/delete/', methods=["GET", "POST"])
 def deleteBio(bio_id):
 	if request.method == "POST":
-		bio = session.query(Bio).filter_by(id = bio_id).one()
+		bio = session.query(Bio).filter_by(id = bleach.clean(bio_id)).one()
 		session.delete(bio)
 		session.commit()
 		flash("Member deleted")
 		return redirect(url_for('bios'))
 	else:
-		bio = session.query(Bio).filter_by(id = bio_id).one()
+		bio = session.query(Bio).filter_by(id = bleach.clean(bio_id)).one()
 		if bio.affiliation != None:
 			affiliation = bio.affiliation
 		else:
