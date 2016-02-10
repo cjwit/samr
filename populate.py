@@ -13,6 +13,11 @@ first_names = ["John", "Stacy", "Bill", "Samra", "Fiona", "Carl", "Taylor", "Ste
 last_names = ["Smith", "Jones", "Arrazak", "Assalam", "Miller", "Meuller", "Michaelson", "Saladin", "Farrouk"]
 interests = ["Sufism", "Islam", "Maqams", "Politics", "Piety", "Sacred", "Anthropology", "Economics", "Rhtyhm", "Oud", "Egypt", "Morocco", "Gulf States", "Iran", "Indonesia", "Performance", "Ritual", "Coptic music", "Activism", "Arab Spring"]
 domains = ["gmail.com", "hotmail.com", "aol.com", "yahoo.com", "fakeschool.edu", "sillyplace.edu"]
+affiliations = []
+for d in domains:
+	affiliations.append(d)
+affiliations.append(None)
+
 
 def randomName():
 	first = (randint(1, len(first_names))) - 1
@@ -46,7 +51,7 @@ def randomDate():
 	today = datetime.date.today()
 	from_today = randint(-365, 365)
 	event_date = today + datetime.timedelta(days = from_today)
-	print event_date
+	return event_date
 
 # projects
 project_titles = ["Website", "Database", "Concert series", "Symposium"]
@@ -61,7 +66,12 @@ item_titles = ["Article 1", "Article 2", "Article 3", "Article 4", "Book 1", "Bo
 
 for bio in range(30):
 	name = randomName()
-	new_bio = Bio(name = name, interests = randomInterests(), email = randomEmail(name), affiliation = "Unemployed, like everyone else")
+	new_bio = Bio(name = name, 
+		website = "http://www."+ domains[randint(0, len(domains) - 1)],
+		interests = randomInterests(), 
+		email = randomEmail(name), 
+		affiliation = affiliations[randint(0, len(affiliations) - 1)]
+		)
 	session.add(new_bio)
 	session.commit()
 

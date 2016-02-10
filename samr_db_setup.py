@@ -12,6 +12,7 @@ class Bio(Base):
 	affiliation = Column(String(250), nullable = True)
 	interests = Column(String(250), nullable = True)
 	email = Column(String(250), nullable = True)
+	website = Column(String(250), nullable = True)
 	id = Column(Integer, primary_key = True)
 
 class Event(Base):

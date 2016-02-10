@@ -1,0 +1,22 @@
+<html>
+<head>
+	<title>Edit {{ bio.name }}</title>
+	<link rel=stylesheet type=text/css href="{{ url_for('static', filename = 'styles.css') }}">
+</head>
+<body>
+
+<h1>Edit {{ bio.name }}</h1>
+<p><a href= "{{ url_for('home') }}">Back to home</a></p>
+
+<div>
+	<form action = "{{ url_for('editBio', bio_id = bio.id) }}" method = 'post'>
+		<p>Name: <input type = 'text' max = '80' name = 'name' value = "{{ bio.name }}"></p>
+		<p>Affiliation (leave blank if unaffiliated): <input type = 'text' max = '250' name = 'affiliation' value = "{{ affiliation }}"></p>
+		<p>Interests: <input type = 'text' max = '250' name = 'interests' value = "{{ bio.interests }}"></p>
+		<p>Email: <input type = 'text' max = '250' name = 'email' value = "{{ bio.email }}"></p>
+		<p>Website: <input type = 'text' max = '250' name = 'website' value = "{{ bio.website }}"></p>
+		<p><input type = 'submit' value = 'Edit Info'> <a href= "{{ url_for('bios') }}">Back to member listing</a>
+	</form>
+</div>
+
+</body>

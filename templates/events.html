@@ -5,44 +5,79 @@
 </head>
 <body>
 
-<h1>SAMR Events</h1>
-<p><a href= "https://www.facebook.com/groups/378262162265234" target = "_blank">SAMR Facebook page</a></p>
-<p><a href= "{{ url_for('home') }}">Back to home</a></p>
-<p><a href="{{ url_for('addEvent') }}">Add an event</a></p>
+<div id = "header">
 
-
-<div>
-	<h2>Upcoming Events</h2>
-	
-	{% for u in upcoming %}
-	<h3>{{ u.start_date }}: {{ u.title }}</h3>
-	<ul>
-		<li>Location: {{ u.location }}</li>
-		<li>Hosted by: {{ u.host.name }}</li>
-		<li>Start date: {{ u.start_date }}</li>
-		<li>{{ u.description }}</li>
-		<li><a href="{{ url_for('editEvent', event_id=u.id) }}">Edit</a> or 
-			<a href="{{ url_for('deleteEvent', event_id=u.id) }}">delete</a> this event</a></li>
-	</ul>
-	{% endfor %}
+	<h1>Society for Arab Music Research</h1>
+	<p class = "menu">
+		<span class="menu-item"><a class='button' href= "https://www.facebook.com/groups/378262162265234" target = "_blank">Facebook</a></span>
+		<span class="menu-item"><a class='button' href="http://www.mailman.srv.ualberta.ca/mailman/listinfo/samr-list" target="_blank">Suscribe to the Listserv</a></span>
+		<span class="menu-item"><a class='button' href="{{ url_for( 'bios' ) }}">Members</a></span>
+		<span class="menu-item"><a class='button' href="{{ url_for( 'events' ) }}">Events</a></span>
+	</p>
 
 </div>
 
-<div>
-	<h2>Recent Events</h2>
-	
-	{% for p in past %}
-	<h3>{{ p.start_date }}: {{ p.title }}</h3>
-	<ul>
-		<li>Location: {{ p.location }}</li>
-		<li>Hosted by: {{ p.host.name }}</li>
-		<li>Start date: {{ p.start_date }}</li>
-		<li>{{ p.description }}</li>
-		<li><a href="{{ url_for('editEvent', event_id=p.id) }}">Edit</a> or 
-			<a href="{{ url_for('deleteEvent', event_id=p.id) }}">delete</a> this event</a></li>
-	</ul>
-	{% endfor %}
-	
+<div id = "wrapper">
+
+	<div class='outer full'>
+		<div class = 'inner'>
+			<h2>SAMR Events</h2>
+			<a class = 'button' href= "{{ url_for('home') }}">Back to home</a>
+			<a class = 'button' href="{{ url_for('addEvent') }}">Add an event</a>
+
+				{% with messages = get_flashed_messages() %}
+				{% if messages %}
+					<center><p class="message">
+					{% for m in messages %}
+						<strong>{{ m }}</strong><br>
+					{% endfor %}
+					</p></center>
+				{% endif %}
+				{% endwith %}
+		</div>
+	</div>
+
+	<div class='outer left'>
+		<div class = 'inner'>
+			<h2>Upcoming Events</h2>
+
+			{% for u in upcoming %}
+			<h3>{{ u.start_date }}: {{ u.title }}</h3>
+			<ul>
+				<li>Location: {{ u.location }}</li>
+				<li>Hosted by: {{ u.host.name }}</li>
+				<li>Start date: {{ u.start_date }}</li>
+				<li>{{ u.description }}</li>
+				<li><a href="{{ url_for('editEvent', event_id=u.id) }}">Edit</a> or 
+					<a href="{{ url_for('deleteEvent', event_id=u.id) }}">delete</a> this event</a></li>
+			</ul>
+			{% endfor %}
+
+		</div>
+	</div>
+
+	<div class = 'outer right'>
+		<div class = 'inner'>
+			<h2>Past Events</h2>
+			
+			{% for p in past %}
+			<h3>{{ p.start_date }}: {{ p.title }}</h3>
+			<ul>
+				<li>Location: {{ p.location }}</li>
+				<li>Hosted by: {{ p.host.name }}</li>
+				<li>Start date: {{ p.start_date }}</li>
+				<li>{{ p.description }}</li>
+				<li><a href="{{ url_for('editEvent', event_id=p.id) }}">Edit</a> or 
+					<a href="{{ url_for('deleteEvent', event_id=p.id) }}">delete</a> this event</a></li>
+			</ul>
+			{% endfor %}
+			
+		</div>
+	</div>
+</div><!-- .wrapper -->
+
+<div id = "footer">
+	<p>Website designed by <a target='_blank' href="http://witulski.wordpress.com">Christopher Witulski</a>, &copy; 2016</p>
 </div>
 
 </body>

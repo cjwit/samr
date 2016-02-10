@@ -5,34 +5,62 @@
 </head>
 <body>
 
-<h1>Society for Arab Music Research</h1>
-<p><a href= "https://www.facebook.com/groups/378262162265234" target = "_blank">SAMR Facebook page</a></p>
-<div>
-	<h2>About the Society</h2>
+<div id = "header">
+
+	<h1>Society for Arab Music Research</h1>
+	<p class = "menu">
+		<span class="menu-item"><a class='button' href= "https://www.facebook.com/groups/378262162265234" target = "_blank">Facebook</a></span>
+		<span class="menu-item"><a class='button' href="http://www.mailman.srv.ualberta.ca/mailman/listinfo/samr-list" target="_blank">Suscribe to the Listserv</a></span>
+		<span class="menu-item"><a class='button' href="{{ url_for( 'bios' ) }}">Members</a></span>
+		<span class="menu-item"><a class='button' href="{{ url_for( 'events' ) }}">Events</a></span>
+	</p>
+
 </div>
-<div>
-	<h2>Upcoming Events</h2>
-	<ul>
-		{% for e in events %}
-		<li>{{ e.start_date }}: {{ e.title }}, {{ e.location }}</li>
-		{% endfor %}
-	</ul>
-	<a href= "{{ url_for( 'events' ) }}">See all events</a> 
-	<a href= "{{ url_for( 'addEvent' ) }}">Add an event</a>
-</div>
-<div>
-	<h2>Member Projects</div>
-	<ul>
-		{% for p in projects %}
-		<li>{{ p.title }} (<a href="">{{ p.owner.name }}</a>): {{ p.description }}</li>
-		{% endfor %}
-	</ul>
-	<a href="">Add your project</a>	
-</div>
-<div>
-	<h2>Other resources</h2>
-	<a href="">Link to member listing</a> 
-	<a href="">Link to community bibliography topics</a>
+
+<div id = "wrapper">
+	
+	<div class = 'outer left'>
+		<div class = 'inner'>
+			<h2>About the Society</h2>
+			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+		</div>
+	</div>
+	
+	<div class = 'outer right'>
+		<div class = 'inner'>
+			<h2>Upcoming Events</h2>
+			<a href= "{{ url_for( 'events' ) }}" class = 'button'>See all</a> 
+			<a href= "{{ url_for( 'addEvent' ) }}" class = 'button'>Add an event</a>
+			<ul>
+				{% for e in events %}
+				<li>{{ e.start_date }}: {{ e.title }}, {{ e.location }}</li>
+				{% endfor %}
+			</ul>
+
+		</div>
+	</div>
+
+
+	<!-- PROJECTS AND BIBLIOGRAPHIES: TO ADD
+		<div>
+			<h2>Member Projects</div>
+			<ul>
+				{% for p in projects %}
+				<li>{{ p.title }} (<a href="">{{ p.owner.name }}</a>): {{ p.description }}</li>
+				{% endfor %}
+			</ul>
+			<a href="">Add your project</a>	
+		</div>
+		<div>
+			<h2>Other resources</h2>
+			<a href="">Link to community bibliography topics</a>
+		</div>
+	-->
+
+</div><!-- .wrapper -->
+
+<div id = "footer">
+	<p>Website designed by <a target='_blank' href="http://witulski.wordpress.com">Christopher Witulski</a>, &copy; 2016</p>
 </div>
 
 </body>

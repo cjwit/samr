@@ -93,20 +93,70 @@ def deleteEvent(event_id):
 # View, add, edit, and delete biographies
 @app.route('/bios/')
 def bios():
-	return "Bio home page"
+	bios = session.query(Bio).order_by(Bio.name).all()
+	return render_template('bios.html', bios = bios)
 
-@app.route('/bios/<int:bio_id>/')
-def viewBio(bio_id):
-	return "View info for bio number " + str(bio_id)
-
-@app.route('/bios/add/')
+@app.route('/bios/add/', methods = ["GET", "POST"])
 def addBio():
-	return "Page to add an bio"
+	if request.method == "POST":
+		if request.form['affiliation'] != "":
+			affiliation = request.form['affiliation']
+		else:
+			affiliation = None
+		new_bio = Bio(name = request.form['name'], 
+			interests = request.form['interests'], 
+			email = request.form['email'],
+			website = request.form['website'],
+			affiliation = affiliation
+			)
+		session.add(new_bio)
+		session.commit()
+		flash("Member added")
+		return redirect(url_for('bios'))
+	else:
+		return render_template('addbio.html')
 
-@app.route('/bios/<int:bio_id>/edit/')
+@app.route('/bios/<int:bio_id>/edit/', methods = ["GET", "POST"])
 def editBio(bio_id):
-	return "Edit or delete bio number " + str(bio_id)
+	if request.method == "POST":
+		bio = session.query(Bio).filter_by(id = bio_id).one()
+		bio.name = request.form['name']
+		bio.interests = request.form['interests']
+		bio.email = request.form['email']
+		bio.website = request.form['website']
+		if request.form['affiliation'] != "":
+			affiliation = request.form['affiliation']
+		else:
+			affiliation = None
+		bio.affiliation = affiliation
+		session.commit()
+		flash("Member updated")
+		return redirect(url_for('bios'))
+	else:
+		bio = session.query(Bio).filter_by(id = bio_id).one()
+		if bio.affiliation != None:
+			affiliation = bio.affiliation
+		else:
+			affiliation = ""
+		return render_template('editbio.html', bio = bio, affiliation = affiliation)
 
+@app.route('/bios/<int:bio_id>/delete/', methods=["GET", "POST"])
+def deleteBio(bio_id):
+	if request.method == "POST":
+		bio = session.query(Bio).filter_by(id = bio_id).one()
+		session.delete(bio)
+		session.commit()
+		flash("Member deleted")
+		return redirect(url_for('bios'))
+	else:
+		bio = session.query(Bio).filter_by(id = bio_id).one()
+		if bio.affiliation != None:
+			affiliation = bio.affiliation
+		else:
+			affiliation = ""
+		return render_template('deletebio.html', bio = bio, affiliation = affiliation)
+
+"""
 # View, add, edit, and delete projects/webpages
 @app.route('/projects/')
 def projects():
@@ -122,6 +172,10 @@ def addProject():
 
 @app.route('/projects/<int:project_id>/edit/')
 def editProject(project_id):
+	return "Edit or delete project number " + str(project_id)
+
+@app.route('/projects/<int:project_id>/delete/')
+def deleteProject(project_id):
 	return "Edit or delete project number " + str(project_id)
 
 # View, add, edit, and delete bibliographies
@@ -153,6 +207,7 @@ def viewResource(item_id):
 @app.route('/bib/item/<int:item_id>/edit/')
 def editResource(item_id):
 	return "Edit or delete item number " + str(item_id)
+"""
 
 if __name__ == '__main__':
     app.secret_key = 'super_secret_key'
