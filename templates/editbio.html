@@ -2,21 +2,52 @@
 <head>
 	<title>Edit {{ bio.name }}</title>
 	<link rel=stylesheet type=text/css href="{{ url_for('static', filename = 'styles.css') }}">
-</head>
+ </head>
 <body>
 
-<h1>Edit {{ bio.name }}</h1>
-<p><a href= "{{ url_for('home') }}">Back to home</a></p>
+<div id = "header">
 
-<div>
-	<form action = "{{ url_for('editBio', bio_id = bio.id) }}" method = 'post'>
-		<p>Name: <input type = 'text' max = '80' name = 'name' value = "{{ bio.name }}"></p>
-		<p>Affiliation (leave blank if unaffiliated): <input type = 'text' max = '250' name = 'affiliation' value = "{{ affiliation }}"></p>
-		<p>Interests: <input type = 'text' max = '250' name = 'interests' value = "{{ bio.interests }}"></p>
-		<p>Email: <input type = 'text' max = '250' name = 'email' value = "{{ bio.email }}"></p>
-		<p>Website: <input type = 'text' max = '250' name = 'website' value = "{{ bio.website }}"></p>
-		<p><input type = 'submit' value = 'Edit Info'> <a href= "{{ url_for('bios') }}">Back to member listing</a>
-	</form>
+	<a href = "{{ url_for('home') }}"><h1>Society for Arab Music Research</h1></a>
+	<p class = "menu">
+		<span class="menu-item"><a class='button' href= "https://www.facebook.com/groups/378262162265234" target = "_blank">Facebook</a></span>
+		<span class="menu-item"><a class='button' href="http://www.mailman.srv.ualberta.ca/mailman/listinfo/samr-list" target="_blank">Suscribe to the Listserv</a></span>
+		<span class="menu-item"><a class='button' href="{{ url_for( 'bios' ) }}">Members</a></span>
+		<span class="menu-item"><a class='button' href="{{ url_for( 'events' ) }}">Events</a></span>
+	</p>
+
+</div>
+
+<div id = "wrapper">
+
+	<div class = 'outer full'>
+		<div class = 'inner'>	
+			<h2>Edit your information</h2>
+			<a class = 'button' href= "{{ url_for('home') }}">Back to home</a>
+			<a class = 'button' href= "{{ url_for('bios') }}">Back to member bios</a>
+		</div>
+	</div>
+
+	<div class = 'outer full'>
+		<div class = 'inner'>
+			<center><form action = "{{ url_for('editBio', bio_id = bio.id) }}" method = 'post'>
+			<table>
+				<tr><td>Name: </td><td><input type = 'text' max = '80' size='40' name = 'name' value = "{{ bio.name }}"></td></tr>
+				<tr><td>Affiliation: </td><td><input type = 'text' max = '250' size='40' name = 'affiliation' value = "{{ affiliation }}"></td></tr>
+				<tr><td>Interests: </td><td><input type = 'text' max = '250' size='40' name = 'interests' value = "{{ bio.interests }}"></td></tr>
+				<tr><td>Email: </td><td><input type = 'text' max = '250' size='40' name = 'email' value = "{{ bio.email }}"></td></tr>
+				<tr><td>Website: </td><td><input type = 'text' max = '250' size='40' name = 'website' value = "{{ bio.website }}"></td></tr>
+				<tr><td><input type = 'submit' value = 'Edit Info'></td><td></td></tr>
+			</table>
+			</form></center>
+		</div>
+	</div>
+
+</div><!-- .wrapper -->
+
+
+
+<div id = "footer">
+	<p>Website designed by <a target='_blank' href="http://witulski.wordpress.com">Christopher Witulski</a>, &copy; 2016</p>
 </div>
 
 </body>

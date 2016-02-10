@@ -1,23 +1,63 @@
 <html>
 <head>
-	<title>SAMR Events</title>
+	<title>Delete {{ event.title }}</title>
 	<link rel=stylesheet type=text/css href="{{ url_for('static', filename = 'styles.css') }}">
-
-</head>
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+	<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+	<link rel="stylesheet" href="/resources/demos/style.css">
+	<script>
+		$(function() {
+			$( "#datepicker" ).datepicker();
+		});
+ 	</script></head>
 <body>
 
-<h1>Delete {{ event.name }}</h1>
-<p><a href= "{{ url_for('home') }}">Back to home</a></p>
+<div id = "header">
 
-<div>
-	<form action = "{{ url_for('deleteEvent', event_id = event.id) }}" method = 'post'>
-		<p>Title: <input type = 'text' max = '80' name = 'title' value = '{{ event.title }}'></p>
-		<p>Location: <input type = 'text' max = '250' name = 'location' value = '{{ event.location }}'></p>
-		<p>Description: <input type = 'text' max = '250' name = 'description' value = '{{ event.description }}'></p>
-		<p>Hosted by (ID Number): <input type = 'max' name = 'host_id' value = '{{ event.host_id }}'></p>
-		<p>Start Date: <input id = 'datepicker' type = 'text' name = 'start_date' value = '{{ start_date }}'></p>
-		<p><input type = 'submit' value = 'Delete Event'> <a href= "{{ url_for('events') }}">Cancel and go back to events</a>
-	</form>
+	<a href = "{{ url_for('home') }}"><h1>Society for Arab Music Research</h1></a>
+	<p class = "menu">
+		<span class="menu-item"><a class='button' href= "https://www.facebook.com/groups/378262162265234" target = "_blank">Facebook</a></span>
+		<span class="menu-item"><a class='button' href="http://www.mailman.srv.ualberta.ca/mailman/listinfo/samr-list" target="_blank">Suscribe to the Listserv</a></span>
+		<span class="menu-item"><a class='button' href="{{ url_for( 'bios' ) }}">Members</a></span>
+		<span class="menu-item"><a class='button' href="{{ url_for( 'events' ) }}">Events</a></span>
+	</p>
+
+</div>
+
+<div id = "wrapper">
+
+	<div class = 'outer full'>
+		<div class = 'inner'>	
+
+			<h2>Delete {{ event.title }}</h2>
+			<a class = 'button' href= "{{ url_for('home') }}">Back to home</a>
+			<a class = 'button' href= "{{ url_for('events') }}">Back to events</a>
+		</div>
+	</div>
+
+	<div class = 'outer full'>
+		<div class = 'inner'>	
+			<form action = "{{ url_for('deleteEvent', event_id = event.id) }}" method = 'post'>
+				<center>
+					<p>Fields with an asterisk (*) are required.</p>
+					<table>
+					<tr><td>Title: * </td><td><input type = 'text' max = '80' size='40' name = 'title' value = '{{ event.title }}' readonly></td></tr>
+					<tr><td>Location: * </td><td><input type = 'text' max = '250' size='40' size='80' name = 'location' value = '{{ event.location }}' readonly></td></tr>
+					<tr><td>Description: </td><td><input type = 'text' max = '250' size='40' name = 'description' value = '{{ event.description }}' readonly></td></tr>
+					<tr><td>Hosted by: </td><td><input type = 'max' size='40' name = 'host_name' value = "{{ event.host_name }}" readonly></td></tr>
+					<tr><td>Contact info: </td><td><input type = 'max' size='40' name = 'contact' value = "{{ event.contact }}" readonly></td></tr>
+					<tr><td>Start Date: * </td><td><input id = 'datepicker' type = 'text' name = 'start_date' value = '{{ start_date }}' readonly></td></tr>
+				</table></center>
+
+			</form>
+		</div>
+	</div>
+
+</div>
+
+<div id = "footer">
+	<p>Website designed by <a target='_blank' href="http://witulski.wordpress.com">Christopher Witulski</a>, &copy; 2016</p>
 </div>
 
 </body>

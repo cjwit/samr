@@ -7,7 +7,7 @@
 
 <div id = "header">
 
-	<h1>Society for Arab Music Research</h1>
+	<a href = "{{ url_for('home') }}"><h1>Society for Arab Music Research</h1></a>
 	<p class = "menu">
 		<span class="menu-item"><a class='button' href= "https://www.facebook.com/groups/378262162265234" target = "_blank">Facebook</a></span>
 		<span class="menu-item"><a class='button' href="http://www.mailman.srv.ualberta.ca/mailman/listinfo/samr-list" target="_blank">Suscribe to the Listserv</a></span>
@@ -43,11 +43,12 @@
 
 			{% for u in upcoming %}
 			<h3>{{ u.start_date }}: {{ u.title }}</h3>
-			<ul>
+			<ul class = 'event-listing'>
 				<li>Location: {{ u.location }}</li>
-				<li>Hosted by: {{ u.host.name }}</li>
+				<li>Hosted by: {{ u.host_name }}</li>
 				<li>Start date: {{ u.start_date }}</li>
 				<li>{{ u.description }}</li>
+				<li>Contact {{ u.contact }} for more information</li>
 				<li><a href="{{ url_for('editEvent', event_id=u.id) }}">Edit</a> or 
 					<a href="{{ url_for('deleteEvent', event_id=u.id) }}">delete</a> this event</a></li>
 			</ul>
@@ -62,11 +63,12 @@
 			
 			{% for p in past %}
 			<h3>{{ p.start_date }}: {{ p.title }}</h3>
-			<ul>
+			<ul class = 'event-listing'>
 				<li>Location: {{ p.location }}</li>
-				<li>Hosted by: {{ p.host.name }}</li>
+				<li>Hosted by: {{ p.host_name }}</li>
 				<li>Start date: {{ p.start_date }}</li>
 				<li>{{ p.description }}</li>
+				<li>Contact {{ p.contact }} for more information</li>
 				<li><a href="{{ url_for('editEvent', event_id=p.id) }}">Edit</a> or 
 					<a href="{{ url_for('deleteEvent', event_id=p.id) }}">delete</a> this event</a></li>
 			</ul>

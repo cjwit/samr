@@ -81,6 +81,11 @@ a {
 	margin: 10px;
 }
 
+.button:hover {
+	background-color: #5a4c3e;
+	color: #d2c6ba;
+}
+
 .menu-item a:hover {
 	background-color: #5a4c3e;
 	color: #d2c6ba;
@@ -114,6 +119,19 @@ a {
 	border-radius: 3px;
 }
 
-.button:hover {
-	background-color: #5a4c3e;
-	color: #d2c6ba;}
+.home_event {
+	display: block;
+	border-top: 1px solid #d2c6ba;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.event-listing {
+	list-style: none;
+}
+
+.bio-list {
+	display: block;
+	border-bottom: 1px solid #d2c6ba;
+}

@@ -15,7 +15,7 @@
 
 <div id = "header">
 
-	<h1>Society for Arab Music Research</h1>
+	<a href = "{{ url_for('home') }}"><h1>Society for Arab Music Research</h1></a>
 	<p class = "menu">
 		<span class="menu-item"><a class='button' href= "https://www.facebook.com/groups/378262162265234" target = "_blank">Facebook</a></span>
 		<span class="menu-item"><a class='button' href="http://www.mailman.srv.ualberta.ca/mailman/listinfo/samr-list" target="_blank">Suscribe to the Listserv</a></span>
@@ -33,22 +33,32 @@
 			<h2>Edit {{ event.title }}</h2>
 			<a class = 'button' href= "{{ url_for('home') }}">Back to home</a>
 			<a class = 'button' href= "{{ url_for('events') }}">Back to events</a>
-
-			<div>
-				<form action = "{{ url_for('editEvent', event_id = event.id) }}" method = 'post'>
-					<center>
-						<table>
-						<tr><td>Title: </td><td><input type = 'text' max = '80' name = 'title' value = '{{ event.title }}'></td></tr>
-						<tr><td>Location: </td><td><input type = 'text' max = '250' name = 'location' value = '{{ event.location }}'></td></tr>
-						<tr><td>Description: </td><td><input type = 'text' max = '250' name = 'description' value = '{{ event.description }}'></td></tr>
-						<tr><td>Hosted by (ID Number): </td><td><input type = 'max' name = 'host_id' value = '{{ event.host_id }}'></td></tr>
-						<tr><td>Start Date: </td><td><input id = 'datepicker' type = 'text' name = 'start_date' value = '{{ start_date }}'></td></tr>
-						<tr><td><input type = 'submit' value = 'Update Event'></td><td></td></tr>
-					</table></center>
-
-				</form>
-			</div>
 		</div>
 	</div>
+
+	<div class = 'outer full'>
+		<div class = 'inner'>	
+			<form action = "{{ url_for('editEvent', event_id = event.id) }}" method = 'post'>
+				<center>
+					<p>Fields with an asterisk (*) are required.</p>
+					<table>
+					<tr><td>Title: * </td><td><input type = 'text' max = '80' size='40' name = 'title' value = '{{ event.title }}'></td></tr>
+					<tr><td>Location: * </td><td><input type = 'text' max = '250' size='40' size='80' name = 'location' value = '{{ event.location }}'></td></tr>
+					<tr><td>Description: </td><td><input type = 'text' max = '250' size='40' name = 'description' value = '{{ event.description }}'></td></tr>
+					<tr><td>Hosted by: </td><td><input type = 'max' size='40' name = 'host_name' value = "{{ event.host_name }}"></td></tr>
+					<tr><td>Contact info: </td><td><input type = 'max' size='40' name = 'contact' value = "{{ event.contact }}"></td></tr>
+					<tr><td>Start Date: * </td><td><input id = 'datepicker' type = 'text' name = 'start_date' value = '{{ start_date }}'></td></tr>
+					<tr><td><input type = 'submit' value = 'Update Event'></td><td></td></tr>
+				</table></center>
+
+			</form>
+		</div>
+	</div>
+
+</div>
+
+<div id = "footer">
+	<p>Website designed by <a target='_blank' href="http://witulski.wordpress.com">Christopher Witulski</a>, &copy; 2016</p>
+</div>
 
 </body>

@@ -1,39 +1,69 @@
 <html>
 <head>
-	<title>SAMR Members</title>
+	<title>SAMR Events</title>
 	<link rel=stylesheet type=text/css href="{{ url_for('static', filename = 'styles.css') }}">
 </head>
 <body>
 
-<h1>SAMR Members</h1>
-<p><a href= "https://www.facebook.com/groups/378262162265234" target = "_blank">SAMR Facebook page</a></p>
-<p><a href= "{{ url_for('home') }}">Back to home</a></p>
-<p><a href="{{ url_for('addBio') }}">Add your information</a></p>
+<div id = "header">
 
-	{% with messages = get_flashed_messages() %}
-	{% if messages %}
-		<center><p class="message">
-		{% for m in messages %}
-			<strong>{{ m }}</strong><br>
-		{% endfor %}
-		</p></center>
-	{% endif %}
-	{% endwith %}
+	<a href = "{{ url_for('home') }}"><h1>Society for Arab Music Research</h1></a>
+	<p class = "menu">
+		<span class="menu-item"><a class='button' href= "https://www.facebook.com/groups/378262162265234" target = "_blank">Facebook</a></span>
+		<span class="menu-item"><a class='button' href="http://www.mailman.srv.ualberta.ca/mailman/listinfo/samr-list" target="_blank">Suscribe to the Listserv</a></span>
+		<span class="menu-item"><a class='button' href="{{ url_for( 'bios' ) }}">Members</a></span>
+		<span class="menu-item"><a class='button' href="{{ url_for( 'events' ) }}">Events</a></span>
+	</p>
 
-<div>
-	<h2>Arabic music researchers</h2>
+</div>
+
+
+<div id = "wrapper">
+
+	<div class='outer full'>
+		<div class = 'inner'>
+
+			<h2>SAMR Members</h2>
+			<p><a class = 'button' href= "{{ url_for('home') }}">Back to home</a>
+			<a class = 'button' href="{{ url_for('addBio') }}">Add your information</a></p>
+
+			{% with messages = get_flashed_messages() %}
+			{% if messages %}
+				<center><p class="message">
+				{% for m in messages %}
+					<strong>{{ m }}</strong><br>
+				{% endfor %}
+				</p></center>
+			{% endif %}
+			{% endwith %}
+
+		</div>
+	</div>
+
+	<div class='outer full'>
+		<div class = 'inner'>
 	
-	{% for b in bios %}
-	<h3>{{ b.name }}{% if b.affiliation != None %}: {{ b.affiliation }}{% endif %}</h3>
-	<ul>
-		<li>Interests: {{ b.interests }}</li>
-		<li>Email: {{ b.email }}</li>
-		<li>Website: <a href="{{ b.website }}" target="_blank">{{ b.website }}</a></li>
-		<li><a href="{{ url_for('editBio', bio_id=b.id) }}">Edit</a> or 
-			<a href="{{ url_for('deleteBio', bio_id=b.id) }}">delete</a> this member</a></li>
-	</ul>
-	{% endfor %}
+			<h2>Arabic music researchers</h2>
 
+			
+			{% for b in bios %}
+			<div class = 'bio-list'>
+				<h3>{{ b.name }}{% if b.affiliation != None %} ({{ b.affiliation }}){% endif %}: <a href='mailto:{{ b.email }}'>{{ b.email }}</a></h3>
+			<ul style='list-style: none'>
+				<li>Interests: {{ b.interests }}</li>
+				<li>Website: <a href="{{ b.website }}" target="_blank">{{ b.website }}</a></li>
+				<li><a href="{{ url_for('editBio', bio_id=b.id) }}">Edit</a> or 
+						<a href="{{ url_for('deleteBio', bio_id=b.id) }}">delete</a> this member</a></li>
+			</ul>
+			</div>
+			{% endfor %}
+		</div>
+	</div>
+
+</div>
+
+<div id = "footer">
+	<p>Website designed by <a target='_blank' href="http://witulski.wordpress.com">Christopher Witulski</a>, &copy; 2016</p>
 </div>
 
 </body>

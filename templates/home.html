@@ -29,14 +29,13 @@
 	<div class = 'outer right'>
 		<div class = 'inner'>
 			<h2>Upcoming Events</h2>
-			<a href= "{{ url_for( 'events' ) }}" class = 'button'>See all</a> 
-			<a href= "{{ url_for( 'addEvent' ) }}" class = 'button'>Add an event</a>
-			<ul>
-				{% for e in events %}
-				<li>{{ e.start_date }}: {{ e.title }}, {{ e.location }}</li>
-				{% endfor %}
-			</ul>
-
+			<p><a href= "{{ url_for( 'events' ) }}" class = 'button'>All events</a> 
+			<a href= "{{ url_for( 'addEvent' ) }}" class = 'button'>Add an event</a></p>
+			{% for e in events %}
+			<div>
+				<p class = 'home_event'> {{ e.start_date }}: {{ e.title }}, {{ e.location }}</p>
+			</div>
+			{% endfor %}
 		</div>
 	</div>
 

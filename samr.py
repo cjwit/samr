@@ -4,6 +4,9 @@ from sqlalchemy.orm import sessionmaker
 from samr_db_setup import Base, Bio, Event, Project, Bibliography, Resource
 from datetime import datetime, date
 import datetime
+import bleach
+
+print bleach.clean("<div>")
 
 
 app = Flask(__name__)
@@ -39,12 +42,16 @@ def addEvent():
 		day = int(split[1])
 		year = int(split[2])
 		new_date = date(year, month, day)
+		
+
 		new_event = Event(title = request.form['title'], 
 			location = request.form['location'], 
 			description = request.form['description'],
-			host_id = request.form['host_id'],
+			host_name = request.form['host_name'],
+			contact = request.form['contact'],
 			start_date = new_date
 			)
+		
 		session.add(new_event)
 		session.commit()
 		flash("Event added")
@@ -65,7 +72,8 @@ def editEvent(event_id):
 		event.title = request.form['title']
 		event.location = request.form['location']
 		event.description = request.form['description']
-		event.host_id = request.form['host_id']
+		host_name = request.form['host_name']
+		contact = request.form['contact']
 		event.start_date = new_date
 		session.commit()
 		flash("Event updated")

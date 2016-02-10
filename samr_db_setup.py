@@ -22,8 +22,8 @@ class Event(Base):
 	description = Column(String(250), nullable = True)
 	start_date = Column(String(10), nullable = False)
 	id = Column(Integer, primary_key = True)
-	host_id = Column(Integer, ForeignKey('bio.id'))
-	host = relationship(Bio)
+	host_name = Column(String(80), nullable = True)
+	contact = Column(String(80), nullable = True)
 
 class Project(Base):
 	__tablename__ = 'project'

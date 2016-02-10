@@ -80,7 +80,9 @@ for event in range(15):
 		location = locations[randint(0, len(locations) - 1)],
 		description = descriptions[randint(0, len(descriptions) - 1)], 
 		start_date = randomDate(),
-		host_id = randint(1, 30))
+		host_name = randomName(),
+		contact = randomEmail(randomName())
+	)
 	session.add(new_event)
 	session.commit()
 
