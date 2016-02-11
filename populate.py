@@ -4,8 +4,7 @@ import random, datetime
 from random import randint
 from samr_db_setup import Base, Bio, Event, Bibliography, Project, Resource
 
-engine = create_engine('mysql://cjwit:Jfutjfudb@cjwit.mysql.pythonanywhere-services.com')
-engine.execute("USE cjwit$samr") # select new db
+engine = create_engine('mysql://cjwit:blabber@cjwit.mysql.pythonanywhere-services.com/cjwit$samr')
 
 Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
