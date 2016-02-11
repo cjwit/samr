@@ -3,8 +3,10 @@ from sqlalchemy.orm import sessionmaker
 import random, datetime
 from random import randint
 from samr_db_setup import Base, Bio, Event, Bibliography, Project, Resource
- 
-engine = create_engine('sqlite:///samr.db')
+
+engine = create_engine('mysql://cjwit:Jfutjfudb@cjwit.mysql.pythonanywhere-services.com')
+engine.execute("USE cjwit$samr") # select new db
+
 Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
@@ -66,19 +68,19 @@ item_titles = ["Article 1", "Article 2", "Article 3", "Article 4", "Book 1", "Bo
 
 for bio in range(30):
 	name = randomName()
-	new_bio = Bio(name = name, 
+	new_bio = Bio(name = name,
 		website = "http://www."+ domains[randint(0, len(domains) - 1)],
-		interests = randomInterests(), 
-		email = randomEmail(name), 
+		interests = randomInterests(),
+		email = randomEmail(name),
 		affiliation = affiliations[randint(0, len(affiliations) - 1)]
 		)
 	session.add(new_bio)
 	session.commit()
 
 for event in range(15):
-	new_event = Event(title = event_titles[randint(0, len(event_titles) - 1)], 
+	new_event = Event(title = event_titles[randint(0, len(event_titles) - 1)],
 		location = locations[randint(0, len(locations) - 1)],
-		description = descriptions[randint(0, len(descriptions) - 1)], 
+		description = descriptions[randint(0, len(descriptions) - 1)],
 		start_date = randomDate(),
 		host_name = randomName(),
 		contact = randomEmail(randomName())
@@ -87,8 +89,8 @@ for event in range(15):
 	session.commit()
 
 for project in range(10):
-	new_project = Project(title = project_titles[randint(0, len(project_titles) - 1)], 
-		description = project_descriptions[randint(0, len(project_descriptions) - 1)], 
+	new_project = Project(title = project_titles[randint(0, len(project_titles) - 1)],
+		description = project_descriptions[randint(0, len(project_descriptions) - 1)],
 		owner_id = randint(1, 30))
 	session.add(new_project)
 	session.commit()
@@ -96,18 +98,19 @@ for project in range(10):
 for bib in range(10):
 	title = interests[randint(0, len(interests) - 1)]
 	description = "Bibliography on the topic of " + title
-	new_bib = Bibliography(title = title, 
+	new_bib = Bibliography(title = title,
 		description = description)
 	session.add(new_bib)
 	session.commit()
 
 for item in range(50):
 	title = item_titles[randint(0, len(item_titles) - 1)]
-	new_resource = Resource(title = title, 
-		description = "Interesting writing on the topic of " + title, 
-		info = "Published somehwere, hope you can find it", 
-		website = "http://www.google.com/" + interests[randint(0, len(interests) - 1)], 
+	new_resource = Resource(title = title,
+		description = "Interesting writing on the topic of " + title,
+		info = "Published somehwere, hope you can find it",
+		website = "http://www.google.com/" + interests[randint(0, len(interests) - 1)],
 		bibliography_id = randint(1, 11))
 	session.add(new_resource)
 	session.commit
-	
+
+session.close()

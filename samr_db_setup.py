@@ -49,6 +49,9 @@ class Resource(Base):
 	bibliography_id = Column(Integer, ForeignKey('bibliography.id'))
 	bibliography = relationship(Bibliography)
 
-engine = create_engine('sqlite:///samr.db')
+engine = create_engine('mysql://cjwit:Jfutjfudb@cjwit.mysql.pythonanywhere-services.com')
+engine.execute("USE cjwit$samr") # select new db
+
 
 Base.metadata.create_all(engine)
+

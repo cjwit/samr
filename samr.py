@@ -6,12 +6,10 @@ from datetime import datetime, date
 import datetime
 import bleach
 
-print bleach.clean("<div>")
-
-
 app = Flask(__name__)
+engine = create_engine('mysql://cjwit:Jfutjfudb@cjwit.mysql.pythonanywhere-services.com')
+engine.execute("USE cjwit$samr") # select new db
 
-engine = create_engine('sqlite:///samr.db')
 Base.metadata.bind = engine
 
 DBSession = sessionmaker(bind=engine)
@@ -23,6 +21,7 @@ def home():
 	today = datetime.date.today()
 	events = session.query(Event).filter(Event.start_date > today).order_by(Event.start_date)
 	projects = session.query(Project).order_by(Project.title)
+	session.close()
 	return render_template('home.html', events = events, projects = projects)
 
 # View, add, edit, and delete events
@@ -31,6 +30,7 @@ def events():
 	today = datetime.date.today()
 	upcoming = session.query(Event).filter(Event.start_date >= today).order_by(Event.start_date)
 	past = session.query(Event).filter(Event.start_date < today).order_by(Event.start_date.desc())
+	session.close()
 	return render_template('events.html', upcoming = upcoming, past = past)
 
 @app.route('/events/add/', methods=['GET', 'POST'])
@@ -42,26 +42,26 @@ def addEvent():
 		day = int(split[1])
 		year = int(split[2])
 		new_date = date(year, month, day)
-		
 
-		new_event = Event(title = request.form['title'], 
-			location = request.form['location'], 
+		new_event = Event(title = request.form['title'],
+			location = request.form['location'],
 			description = request.form['description'],
 			host_name = request.form['host_name'],
 			contact = request.form['contact'],
 			start_date = new_date
 			)
-		
+
 		session.add(new_event)
 		session.commit()
+		session.close()
 		flash("Event added")
 		return redirect(url_for('events'))
 	else:
-		return render_template('addevent.html')
+	    return render_template('addevent.html')
 
 @app.route('/events/<int:event_id>/edit/', methods=['GET', 'POST'])
 def editEvent(event_id):
-	if request.method == "POST":
+    if request.method == "POST":
 		event = session.query(Event).filter_by(id = event_id).one()
 		date_string = request.form['start_date']
 		split = date_string.split('/')
@@ -76,10 +76,12 @@ def editEvent(event_id):
 		contact = request.form['contact']
 		event.start_date = new_date
 		session.commit()
+		session.close()
 		flash("Event updated")
 		return redirect(url_for('events'))
-	else:
+    else:
 		event = session.query(Event).filter_by(id = event_id).one()
+		session.close()
 		date_info = event.start_date.split('-')
 		start_date = date_info[1] + '/' + date_info[2] + '/' + date_info[0]
 		return render_template('editevent.html', event = event, start_date = start_date)
@@ -90,10 +92,12 @@ def deleteEvent(event_id):
 		event = session.query(Event).filter_by(id = event_id).one()
 		session.delete(event)
 		session.commit()
+		session.close()
 		flash("Event deleted")
 		return redirect(url_for('events'))
 	else:
 		event = session.query(Event).filter_by(id = event_id).one()
+		session.close()
 		date_info = event.start_date.split('-')
 		start_date = date_info[1] + '/' + date_info[2] + '/' + date_info[0]
 		return render_template('deleteevent.html', event = event, start_date = start_date)
@@ -102,6 +106,7 @@ def deleteEvent(event_id):
 @app.route('/bios/')
 def bios():
 	bios = session.query(Bio).order_by(Bio.name).all()
+	session.close()
 	return render_template('bios.html', bios = bios)
 
 @app.route('/bios/add/', methods = ["GET", "POST"])
@@ -111,14 +116,15 @@ def addBio():
 			affiliation = request.form['affiliation']
 		else:
 			affiliation = None
-		new_bio = Bio(name = request.form['name'], 
-			interests = request.form['interests'], 
+		new_bio = Bio(name = request.form['name'],
+			interests = request.form['interests'],
 			email = request.form['email'],
 			website = request.form['website'],
 			affiliation = affiliation
 			)
 		session.add(new_bio)
 		session.commit()
+		session.close()
 		flash("Member added")
 		return redirect(url_for('bios'))
 	else:
@@ -139,6 +145,7 @@ def editBio(bio_id):
 		bio.affiliation = affiliation
 		session.commit()
 		flash("Member updated")
+		session.close()
 		return redirect(url_for('bios'))
 	else:
 		bio = session.query(Bio).filter_by(id = bio_id).one()
@@ -146,6 +153,7 @@ def editBio(bio_id):
 			affiliation = bio.affiliation
 		else:
 			affiliation = ""
+		session.close()
 		return render_template('editbio.html', bio = bio, affiliation = affiliation)
 
 @app.route('/bios/<int:bio_id>/delete/', methods=["GET", "POST"])
@@ -155,6 +163,7 @@ def deleteBio(bio_id):
 		session.delete(bio)
 		session.commit()
 		flash("Member deleted")
+		session.close()
 		return redirect(url_for('bios'))
 	else:
 		bio = session.query(Bio).filter_by(id = bio_id).one()
@@ -162,6 +171,7 @@ def deleteBio(bio_id):
 			affiliation = bio.affiliation
 		else:
 			affiliation = ""
+		session.close()
 		return render_template('deletebio.html', bio = bio, affiliation = affiliation)
 
 """
