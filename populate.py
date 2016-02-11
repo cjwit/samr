@@ -4,7 +4,7 @@ import random, datetime
 from random import randint
 from samr_db_setup import Base, Bio, Event, Bibliography, Project, Resource
  
-engine = create_engine('sqlite:///samr.db')
+engine = create_engine('postgres://bstjlxdcqblgkv:QnqPK3x9hkRD49k67g_HT4oZDK@ec2-54-225-215-233.compute-1.amazonaws.com:5432/d9u6nclt064q0a')
 Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
 session = DBSession()

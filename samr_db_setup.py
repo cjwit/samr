@@ -14,6 +14,7 @@ class Bio(Base):
 	email = Column(String(250), nullable = True)
 	website = Column(String(250), nullable = True)
 	id = Column(Integer, primary_key = True)
+	projects = relationship("Project", cascade="all, delete-orphan")
 
 class Event(Base):
 	__tablename__ = 'event'
@@ -38,6 +39,7 @@ class Bibliography(Base):
 	title = Column(String(80), nullable = False)
 	description = Column(String(250), nullable = True)
 	id = Column(Integer, primary_key = True)
+	resources = relationship("Resource", cascade="all, delete-orphan")
 
 class Resource(Base):
 	__tablename__ = 'resource'
@@ -49,6 +51,6 @@ class Resource(Base):
 	bibliography_id = Column(Integer, ForeignKey('bibliography.id'))
 	bibliography = relationship(Bibliography)
 
-engine = create_engine('sqlite:///samr.db')
+engine = create_engine('postgres://bstjlxdcqblgkv:QnqPK3x9hkRD49k67g_HT4oZDK@ec2-54-225-215-233.compute-1.amazonaws.com:5432/d9u6nclt064q0a')
 
 Base.metadata.create_all(engine)
